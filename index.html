@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EasyCâmbio | Conversor de Moedas</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="module" src="js/main.js"></script>
+</head>
+<body>
+    <header>
+        <h1>EasyCâmbio</h1>
+        <h2>Conversor de Moedas</h2>
+    </header>
+
+    <main>
+        <section>
+            <form id="conversion-form">
+                <label for="amount">Valor para converter:</label>
+
+                <input
+                    type="text"
+                    id="amount"
+                    name="amount"
+                    inputmode="decimal"
+                    placeholder="Ex.: 10,50"
+                    aria-describedby="amount-error"
+                >
+
+                <small id="amount-error"></small>
+
+                <div>
+                    <label for="from-currency">De:</label>
+
+                    <select id="from-currency" name="from-currency">
+                        <option value="">Selecione a moeda de origem</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="to-currency">Para:</label>
+
+                    <select id="to-currency" name="to-currency">
+                        <option value="">Selecione a moeda de destino</option>
+                    </select>
+                </div>
+
+                <button type="button" id="swap-button">
+                    Trocar moedas
+                </button>
+
+                <button type="submit" id="convert-button">
+                    Converter
+                </button>
+            </form>
+
+            <div id="status" role="status" aria-live="polite"></div>
+
+            <section id="quote" aria-live="polite">
+                <!-- A cotação será exibida pelo JavaScript -->
+            </section>
+
+            <section id="result" aria-live="polite">
+                <!-- O resultado será exibido pelo JavaScript -->
+            </section>
+        </section>
+    </main>
+</body>
+</html>

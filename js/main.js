@@ -105,3 +105,10 @@ function handleSwap() {
   [fromSelect.value, toSelect.value] = [toSelect.value, fromSelect.value];
   refresh(parseAmount(amountInput.value));
 }
+
+form.addEventListener("submit", handleSubmit);
+fromSelect.addEventListener("change", handleCurrencyChange);
+toSelect.addEventListener("change", handleCurrencyChange);
+swapButton.addEventListener("click", handleSwap);
+
+loadCurrencies();

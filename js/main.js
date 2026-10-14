@@ -80,3 +80,23 @@ async function refresh(amount) {
     convertButton.disabled = false;
   }
 }
+
+function handleSubmit(event) {
+  event.preventDefault(); // Evita o envio do formulário
+
+  const amount = parseAmount(amountInput.value);
+
+  if (amount === null) {
+    alert("Por favor, insira um valor válido.");
+    return;
+    clearResult();
+    amountInput.focus();
+  }
+
+  clearFields();
+  refresh(amount);
+}
+
+function handleCurrencyChange() {
+  refresh(paseAmount(amountInput.value));
+}

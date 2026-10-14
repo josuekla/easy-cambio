@@ -48,3 +48,35 @@ async function loadCurrencies() {
     console.error("Error loading currencies:", error);
   }
 }
+
+async function refresh(amount) {
+  const from = fromSelect.value;
+  const to = toSelect.value;
+
+  const requestId = ++lastRequestId;
+
+  convertButton.disabled = true;
+  showLoading("Carregando cotação...");
+
+  try {
+    const { rate, date } = await getExchangeRate(from, to);
+
+    // Se a requisição não for a mais recente, não atualiza a cotação
+    if (requestId !== lastRequestId) {
+      return;
+    }
+
+    clearQuote();
+    renderQuote(rate, date);
+
+    if (amount !== null) {
+      clearResult();
+    } else {
+      renderResult({ amount, from, to, rate, convertedAmount: amount * rate });
+    }
+  } catch (error) {
+    console.error("Error fetching exchange rate:", error);
+  } finally {
+    convertButton.disabled = false;
+  }
+}

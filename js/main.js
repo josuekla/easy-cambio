@@ -100,3 +100,8 @@ function handleSubmit(event) {
 function handleCurrencyChange() {
   refresh(paseAmount(amountInput.value));
 }
+
+function handleSwap() {
+  [fromSelect.value, toSelect.value] = [toSelect.value, fromSelect.value];
+  refresh(parseAmount(amountInput.value));
+}

@@ -1,28 +1,34 @@
-import { getCurrencies, getExchangeRate } from "./api";
-import { parseAmount } from "./format";
+import { getCurrencies, getExchangeRate } from "./api.js";
+import { parseAmount } from "./format.js";
 import {
   renderCurrencyOptions,
   renderQuote,
   clearQuote,
   renderResult,
+  clearResult,
   showLoading,
-} from "./ui";
+  clearStatus,
+  showError,
+  showFieldError,
+  clearFieldError,
+} from "./ui.js";
 
 const DEFAULT_FROM_CURRENCY = "USD";
 const DEFAULT_TO_CURRENCY = "BRL";
 
-const form = document.getElementById("exchange-form");
-const amoutInput = document.getElementById("amount");
+const form = document.getElementById("conversion-form");
+const amountInput = document.getElementById("amount");
 const fromSelect = document.getElementById("from-currency");
 const toSelect = document.getElementById("to-currency");
 
 const swapButton = document.getElementById("swap-button");
 const convertButton = document.getElementById("convert-button");
 
-var lastRequestId = 0;
+// Cada busca recebe um número; só a mais recente pode atualizar a tela
+let lastRequestId = 0;
 
 function setControlsDisabled(disabled) {
-  amoutInput.disabled = disabled;
+  amountInput.disabled = disabled;
   fromSelect.disabled = disabled;
   toSelect.disabled = disabled;
   swapButton.disabled = disabled;
@@ -45,13 +51,22 @@ async function loadCurrencies() {
 
     await refresh(null);
   } catch (error) {
-    console.error("Error loading currencies:", error);
+    showError(error.message, loadCurrencies);
   }
 }
 
+// Busca a cotação; se amount for um número, também mostra a conversão
 async function refresh(amount) {
   const from = fromSelect.value;
   const to = toSelect.value;
+
+  // Placeholder selecionado: não há o que consultar
+  if (!from || !to) {
+    clearQuote();
+    clearResult();
+    clearStatus();
+    return;
+  }
 
   const requestId = ++lastRequestId;
 
@@ -61,23 +76,31 @@ async function refresh(amount) {
   try {
     const { rate, date } = await getExchangeRate(from, to);
 
-    // Se a requisição não for a mais recente, não atualiza a cotação
+    // Se a requisição não for a mais recente, não atualiza a tela
     if (requestId !== lastRequestId) {
       return;
     }
 
-    clearQuote();
-    renderQuote(rate, date);
+    clearStatus();
+    renderQuote(from, to, rate, date);
 
-    if (amount !== null) {
+    if (amount === null) {
       clearResult();
     } else {
       renderResult({ amount, from, to, rate, convertedAmount: amount * rate });
     }
   } catch (error) {
-    console.error("Error fetching exchange rate:", error);
+    if (requestId !== lastRequestId) {
+      return;
+    }
+
+    clearQuote();
+    clearResult();
+    showError(error.message);
   } finally {
-    convertButton.disabled = false;
+    if (requestId === lastRequestId) {
+      convertButton.disabled = false;
+    }
   }
 }
 
@@ -87,18 +110,19 @@ function handleSubmit(event) {
   const amount = parseAmount(amountInput.value);
 
   if (amount === null) {
-    alert("Por favor, insira um valor válido.");
-    return;
     clearResult();
+    showFieldError("Informe um valor numérico maior que zero.");
     amountInput.focus();
+    return;
   }
 
-  clearFields();
+  clearFieldError();
   refresh(amount);
 }
 
+// Ao trocar a moeda: atualiza a cotação e reconverte se já houver valor válido
 function handleCurrencyChange() {
-  refresh(paseAmount(amountInput.value));
+  refresh(parseAmount(amountInput.value));
 }
 
 function handleSwap() {

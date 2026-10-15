@@ -24,7 +24,13 @@ async function request(path) {
 export async function getCurrencies() {
   const data = await request("/currencies");
 
-  return Object.entries(data).map(([code, name]) => ({ code, name }));
+  const currencies = [];
+
+  for (const code in data) {
+    currencies.push({ code: code, name: data[code] });
+  }
+
+  return currencies;
 }
 
 export async function getExchangeRate(from, to) {

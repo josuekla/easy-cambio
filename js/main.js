@@ -24,9 +24,6 @@ const toSelect = document.getElementById("to-currency");
 const swapButton = document.getElementById("swap-button");
 const convertButton = document.getElementById("convert-button");
 
-// Cada busca recebe um número; só a mais recente pode atualizar a tela
-let lastRequestId = 0;
-
 function setControlsDisabled(disabled) {
   amountInput.disabled = disabled;
   fromSelect.disabled = disabled;
@@ -68,18 +65,12 @@ async function refresh(amount) {
     return;
   }
 
-  const requestId = ++lastRequestId;
-
-  convertButton.disabled = true;
+  // Trava os controles até a resposta chegar, para não haver duas buscas ao mesmo tempo
+  setControlsDisabled(true);
   showLoading("Carregando cotação...");
 
   try {
     const { rate, date } = await getExchangeRate(from, to);
-
-    // Se a requisição não for a mais recente, não atualiza a tela
-    if (requestId !== lastRequestId) {
-      return;
-    }
 
     clearStatus();
     renderQuote(from, to, rate, date);
@@ -90,17 +81,12 @@ async function refresh(amount) {
       renderResult({ amount, from, to, rate, convertedAmount: amount * rate });
     }
   } catch (error) {
-    if (requestId !== lastRequestId) {
-      return;
-    }
-
     clearQuote();
     clearResult();
     showError(error.message);
   } finally {
-    if (requestId === lastRequestId) {
-      convertButton.disabled = false;
-    }
+    // Roda sempre, com sucesso ou erro: libera os controles de novo
+    setControlsDisabled(false);
   }
 }
 

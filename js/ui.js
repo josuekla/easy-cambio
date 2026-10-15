@@ -1,3 +1,4 @@
+import { formatCurrency, formatRate, formatDate } from "./format.js";
 
 export function renderCurrencyOptions(currencies) {
     const fromSelect = document.getElementById("from-currency");
@@ -37,9 +38,12 @@ export function renderQuote(from, to, rate, date) {
 
     quote.replaceChildren();
 
+    // Moedas iguais não têm data (date é null): nesse caso não mostramos a data
+    const dateText = date ? ` (cotação de ${formatDate(date)})` : "";
+
     const message = document.createElement("p");
     message.textContent =
-        `1 ${from} = ${rate} ${to} (cotação de ${date})`;
+        `1 ${from} = ${formatRate(rate)} ${to}${dateText}`;
 
     quote.appendChild(message);
 }
@@ -66,12 +70,29 @@ export function renderResult({
     const title = document.createElement("h3");
     title.textContent = "Resultado da conversão";
 
-    const details = document.createElement("p");
-    details.textContent =
-        `${amount} ${from} = ${convertedAmount} ${to}`;
+    const details = document.createElement("dl");
+
+    addResultRow(details, "Valor informado", formatCurrency(amount, from));
+    addResultRow(details, "Moeda de origem", from);
+    addResultRow(details, "Moeda de destino", to);
+    addResultRow(details, "Taxa de câmbio", `1 ${from} = ${formatRate(rate)} ${to}`);
+    addResultRow(details, "Valor convertido", formatCurrency(convertedAmount, to));
 
     result.appendChild(title);
     result.appendChild(details);
+}
+
+
+// Cria um par "rótulo / valor" dentro da lista de descrição (<dl>)
+function addResultRow(list, label, value) {
+    const term = document.createElement("dt");
+    term.textContent = label;
+
+    const description = document.createElement("dd");
+    description.textContent = value;
+
+    list.appendChild(term);
+    list.appendChild(description);
 }
 
 
@@ -118,13 +139,17 @@ export function showError(message, onRetry) {
 
 export function showFieldError(message) {
     const error = document.getElementById("amount-error");
+    const amountInput = document.getElementById("amount");
 
     error.textContent = message;
+    amountInput.setAttribute("aria-invalid", "true");
 }
 
 
 export function clearFieldError() {
     const error = document.getElementById("amount-error");
+    const amountInput = document.getElementById("amount");
 
     error.textContent = "";
+    amountInput.removeAttribute("aria-invalid");
 }

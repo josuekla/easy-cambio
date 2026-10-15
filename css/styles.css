@@ -1,185 +1,210 @@
-
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f5;
-    color: #24332b;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f5;
+  color: #24332b;
 }
 
 header {
-    text-align: center;
-    padding: 32px 16px;
-    background-color: #176b45;
-    color: #ffffff;
+  text-align: center;
+  padding: 32px 16px;
+  background-color: #176b45;
+  color: #ffffff;
 }
 
 header h1 {
-    margin: 0;
-    font-size: 2rem;
+  margin: 0;
+  font-size: 2rem;
 }
 
 header h2 {
-    margin: 8px 0 0;
-    font-size: 1.1rem;
-    font-weight: normal;
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+  font-weight: normal;
 }
 
 main {
-    width: min(100% - 32px, 600px);
-    margin: 32px auto;
+  width: min(100% - 32px, 600px);
+  margin: 32px auto;
 }
 
 #conversion-form {
-    background-color: #ffffff;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 #conversion-form label {
-    font-size: 0.95rem;
-    font-weight: bold;
+  font-size: 0.95rem;
+  font-weight: bold;
 }
 
 #amount,
 #from-currency,
 #to-currency {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5ce;
-    border-radius: 8px;
-    background-color: #ffffff;
-    color: #24332b;
-    font-size: 1rem;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5ce;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #24332b;
+  font-size: 1rem;
 }
 
 #amount:focus-visible,
 #from-currency:focus-visible,
 #to-currency:focus-visible {
-    outline: 2px solid #176b45;
-    outline-offset: 2px;
+  outline: 2px solid #176b45;
+  outline-offset: 2px;
 }
 
 #swap-button,
 #convert-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 }
 #swap-button {
-    background-color: #e6f2eb;
-    color: #176b45;
+  background-color: #e6f2eb;
+  color: #176b45;
 }
 
 #convert-button {
-    background-color: #176b45;
-    color: #ffffff;
+  background-color: #176b45;
+  color: #ffffff;
 }
 
 #swap-button:hover {
-    background-color: #d4e9dc;
+  background-color: #d4e9dc;
 }
 
 #convert-button:hover {
-    background-color: #125638;
+  background-color: #125638;
 }
 
 #swap-button:focus-visible,
 #convert-button:focus-visible {
-    outline: 2px solid #176b45;
-    outline-offset: 3px;
+  outline: 2px solid #176b45;
+  outline-offset: 3px;
 }
 
 #amount-error {
-    color: #b42318;
-    font-size: 0.875rem;
+  color: #b42318;
+  font-size: 0.875rem;
 }
 
 #status,
 #quote {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 
 #quote p {
-    margin: 0;
-    font-weight: bold;
+  margin: 0;
+  font-weight: bold;
 }
 
 #status p {
-    margin: 0 0 8px;
+  margin: 0 0 8px;
 }
 
 /* Cartão do resultado (só aparece quando há uma conversão) */
 #result:has(dl) {
-    margin-top: 16px;
-    padding: 24px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 16px;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 #result h3 {
-    margin: 0 0 16px;
-    font-size: 1.1rem;
+  margin: 0 0 16px;
+  font-size: 1.1rem;
 }
 
 #result dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px 0;
-    margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 0;
+  margin: 0;
 }
 
 #result dt {
-    color: #4a5a51;
+  color: #4a5a51;
 }
 
 #result dd {
-    margin: 0;
-    padding-left: 16px;
-    text-align: right;
-    font-weight: bold;
-    overflow-wrap: anywhere;
+  margin: 0;
+  padding-left: 16px;
+  text-align: right;
+  font-weight: bold;
+  overflow-wrap: anywhere;
 }
 
 /* Última linha (valor convertido) em destaque */
 #result dt:last-of-type,
 #result dd:last-of-type {
-    margin-top: 4px;
-    padding-top: 12px;
-    border-top: 1px solid #e1e8e3;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid #e1e8e3;
 }
 
 #result dd:last-of-type {
-    font-size: 1.3rem;
-    color: #176b45;
+  font-size: 1.3rem;
+  color: #176b45;
+}
+
+@media (max-width: 420px) {
+  #result dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  #result dd {
+    padding-left: 0;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+
+  #result dt:last-of-type {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #e1e8e3;
+  }
+
+  #result dd:last-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+    border-top: none;
+  }
 }
 
 /* Layout para telas maiores */
 @media (min-width: 600px) {
-    #conversion-form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
+  #conversion-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 
-    #conversion-form > label,
-    #amount,
-    #amount-error,
-    #swap-button,
-    #convert-button {
-        grid-column: 1 / -1;
-    }
+  #conversion-form > label,
+  #amount,
+  #amount-error,
+  #swap-button,
+  #convert-button {
+    grid-column: 1 / -1;
+  }
 }

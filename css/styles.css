@@ -107,6 +107,66 @@ main {
     font-size: 0.875rem;
 }
 
+#status,
+#quote {
+    margin-top: 16px;
+}
+
+#quote p {
+    margin: 0;
+    font-weight: bold;
+}
+
+#status p {
+    margin: 0 0 8px;
+}
+
+/* Cartão do resultado (só aparece quando há uma conversão) */
+#result:has(dl) {
+    margin-top: 16px;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#result h3 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+}
+
+#result dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 0;
+    margin: 0;
+}
+
+#result dt {
+    color: #4a5a51;
+}
+
+#result dd {
+    margin: 0;
+    padding-left: 16px;
+    text-align: right;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+/* Última linha (valor convertido) em destaque */
+#result dt:last-of-type,
+#result dd:last-of-type {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid #e1e8e3;
+}
+
+#result dd:last-of-type {
+    font-size: 1.3rem;
+    color: #176b45;
+}
+
 /* Layout para telas maiores */
 @media (min-width: 600px) {
     #conversion-form {
